@@ -1,68 +1,52 @@
-var express = require("express");
-var path = require("path");
+// Dependencies
+// =============================================================
+var express = require('express');
+var path = require('path');
 var serve = require('express-static');
+// var serveStatic = require('serve-static');
+var similarity = require('compute-cosine-similarity');
 
-
+// Sets up the Express App
+// =============================================================
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-app.use(express.urlencoded({ extended: true }));
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(express.static(path.join(__dirname + "/public")));
- 
-console.dir(app);   
-var reservations = [
-    {
-        resName: "Bob",
-        resPhone: "310-867-5309",
-        resEmail: "dont@bothme.com",
-        resID: "Bob the Destroyer"
-    }
-];
+// app.use('/static', express.static(path.join(__dirname + 'public')));
+// app.use('/static', express.static(path.join(__dirname + 'app/public')));
 
-var waitList = [
-    {
-        resName: "Deb",
-        resPhone: "555-555-5555",
-        resEmail: "deb@debbie.com",
-        resID: "Little Debbie"
-    }
-];
+// THIS APPROACH IS THE THING TO DO, COVERS THE RES.SEND CALLS BELOW LINES 31 TO
+app.use(express.static(path.join(__dirname + '/app/public')));
+// this approach is a simple way to search through multiple directories.
+// Files are looked for in public-optimized/ first, then public/secon as a fallback.
+// app.use(serveStatic(path.join(__dirname, 'public-optimized')));
+// app.use(serveStatic(path.join(__dirname, 'public')));
 
-
-app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "index.html"));
+app.get('/', function(req, res) {
+  res.redirect('/home.html');
 });
 
-app.get("/reserve", function(req, res) {
-    res.sendFile(path.join(__dirname, "reserve.html"));
+app.get('/survey', function(req, res) {
+  res.redirect('/survey.html');
 });
 
-app.get("/tables", function(req, res) {
-    res.sendFile(path.join(__dirname, "tables.html"));
+// app.post('/api/friends', function(req, res) {
+//   console.log(req.body);
+//   var newFriend = req.body;
+//   // console.log(newReservation.resName);
+//   res.json(newFriend);
+//   console.log(newFriend);
+// });
+
+var friends = require('./app/data/friends');
+
+app.post('/api/friends', function(req, res) {
+  friends.push(req.body);
+  res.json(friends);
 });
-
-
-app.get("/api/reserve", function(req, res) {
-    return res.json(reservations);
-});
-
-
-app.post("/api/reserve", function(req, res) {
-    // console.log(req.body);
-    var newReservation = req.body;
-    // console.log(newReservation.resName);
-    newReservation.routeName = newReservation.resName.replace(/\s+/g, "").toLowerCase();
-    // console.log(newReservation)
-    if (reservations.length < 5) {
-        reservations.push(newReservation);
-    } else {
-        waitList.push(newReservation)
-    }
-    res.json(reservations);
-    console.log(waitList);
-})
 
 app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
+  console.log('App listening on PORT ' + PORT);
 });

@@ -6,12 +6,12 @@
     text-align: center;
 }
 
-
 #header {
     display: inline-block;
     text-align: center;
+    color: white;
     width: 100%;
-    background: url('../assets/grass_n_sky.jpeg') no-repeat center center fixed;
+    background: url('../../assets/grass.jpeg') no-repeat center center fixed;
     background-size: cover;
 
 }

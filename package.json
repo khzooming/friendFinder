@@ -1,0 +1,28 @@
+{
+  "name": "friendfinder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "compute-cosine-similarity": "^1.0.0",
+    "express": "^4.16.4",
+    "express-static": "^1.2.6",
+    "path": "^0.12.7",
+    "serve-static": "^1.13.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khzooming/friendFinder.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khzooming/friendFinder/issues"
+  },
+  "homepage": "https://github.com/khzooming/friendFinder#readme"
+}
